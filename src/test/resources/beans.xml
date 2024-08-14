@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	         http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="personWithCar" class="org.springframework.bean.PersonWithCar">
+        <property name="name" value="derek"/>
+        <property name="car" ref="car"/>
+    </bean>
+
+    <bean id="car" class="org.springframework.bean.Car">
+        <property name="brand" value="porsche"/>
+    </bean>
+
+    <!--  这个类没有继承init和disposable接口，需要在xml中自定义初始化和销毁方法  -->
+    <bean id="person" class="org.springframework.bean.PersonWithCar" init-method="customInitMethod" destroy-method="customDestroyMethod">
+        <property name="name" value="marry"/>
+    </bean>
+
+    <!--<bean id="carPrototype" class="org.springframework.bean.Car" scope="prototype">
+        <property name="brand" value="porsche"/>
+    </bean>-->
+
+    <bean id="carFactory" class="org.springframework.bean.CarFactoryBean">
+        <property name="brand" value="porsche"/>
+    </bean>
+
+    <bean id="helloService" class="org.springframework.service.HelloService"/>
+
+
+    <!-- 在Application Context中自动执行的Post Processor   -->
+    <!--<bean class="org.springframework.common.CustomBeanFactoryPostProcessor"/>
+    <bean class="org.springframework.common.CustomerBeanPostProcessor"/>-->
+</beans>

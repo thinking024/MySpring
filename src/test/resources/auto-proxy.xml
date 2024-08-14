@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	         http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="worldService" class="org.springframework.service.WorldServiceImpl">
+        <property name="name" value="earth"/>
+    </bean>
+
+    <!-- 用于代理的bean post processor   -->
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+
+    <!--  包含代理信息的pointcut advisor  -->
+    <bean id="pointcutAdvisor" class="org.springframework.aop.aspectj.AspectJExpressionPointcutAdvisor">
+        <property name="expression" value="execution(* org.springframework.service.WorldService.explode(..))"/>
+        <property name="advice" ref="methodInterceptor"/>
+    </bean>
+
+
+    <bean id="methodInterceptor" class="org.springframework.aop.GenericInterceptor">
+        <property name="beforeAdvice" ref="beforeAdvice"/>
+    </bean>
+
+    <bean id="beforeAdvice" class="org.springframework.common.WorldServiceBeforeAdvice"/>
+
+</beans>
